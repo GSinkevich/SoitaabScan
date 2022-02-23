@@ -10,13 +10,14 @@ namespace SoitaabScan
     {
         static void Main(string[] args)
         {
-           //string folder = @"D:\Test";
-           string folder = @"X:\SOITAAB";
+           string folder = @"D:\Test";
+           //string folder = @"X:\SOITAAB";
             string ignorpath = "Выполнено";
 
             int x = 150;
             int y = 53;
-            var key = Console.ReadKey().Key;
+            //var key = Console.ReadKey().Key;
+            var key = ConsoleKey.Enter;
             if (key == ConsoleKey.F3)
             {
                 Console.WriteLine("Введите новый X");
@@ -78,7 +79,7 @@ namespace SoitaabScan
                         }
 
                     }
-                   programs.Sort();
+                   //programs.Sort();
                     Console.WriteLine($"{"Название",23} {"Толщина",10} {"Габариты ",14} {"Остаток",20} {"Дата создания",20}");
                     foreach (ProgramSoitaab program in programs)
                     {
