@@ -6,12 +6,11 @@ using System.Text;
 
 namespace SoitaabScan
 {
-    class ProgramList
+     class ProgramList
     {
-        public ProgramSoitaab[] programSoitaabs = new ProgramSoitaab[500];
+        public List<ProgramSoitaab> programSoitaabs = new List<ProgramSoitaab>();
 
         private FileInfo[] programs;
-
         public ProgramList(DirectoryInfo d)
         {
             if (d is null)
@@ -25,9 +24,9 @@ namespace SoitaabScan
 
         public void GetInfoAllPrograms()
         {
-            for (int i = 0; i < programs.Length ; i++)
+            foreach (var item in programs)
             {
-                programSoitaabs[i] = new ProgramSoitaab(programs[i]);
+                programSoitaabs.Add(new ProgramSoitaab(item));
             }
         }
 
@@ -40,7 +39,7 @@ namespace SoitaabScan
                 {
                     return res;
                 }
-                  res += $"\t{program.Name,-15} \t{program.Thickness,1} \t{program.SizeY} x {program.SizeX}  \t{program.Ostatok,-15} \t{program.DateTime.ToString("dd/MM"),3} \n";
+                res += $"\t{program.Name,-15} \t{program.Thickness,1} \t{program.SizeY} x {program.SizeX}  \t{program.Ostatok,-15} \t{program.DateTime.ToString("dd/MM"),3} \n";
             }
             return res;
         }
@@ -56,7 +55,7 @@ namespace SoitaabScan
                 throw new ArgumentException(nameof(directoryInfo), "is empty");
             }
 
-            
+
 
             foreach (FileInfo currentFile in AllFiles)
             {
@@ -74,13 +73,43 @@ namespace SoitaabScan
                         res.Add(currentFile);
                     }
                 }
-               
+
             }
             return res.ToArray();
 
         }
 
-        
+       public void DefaultSort()
+        {
+            if (programSoitaabs is null)
+            {
+                throw new ArgumentNullException(nameof(programSoitaabs));
+            }
+
+            byte swap;
+
+            do
+            {
+                swap = 0;
+
+                for (int i = 1; i < programSoitaabs.Count; i++)
+                {
+                    if (programSoitaabs[i] is null)
+                    {
+                        continue;                        
+                    }
+
+                    if (programSoitaabs[i].Thickness < programSoitaabs[i - 1].Thickness)
+                    {
+                        swap += 1;
+                        var variabletoexchange = programSoitaabs[i];
+                        programSoitaabs[i] = programSoitaabs[i - 1];
+                        programSoitaabs[i - 1] = variabletoexchange;
+                    }
+                }
+            }
+            while (swap > 0);
+        }
     }
 }
  
