@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SoitaabScan
 {
-    class ProgramSoitaab
+    class ProgramSoitaab 
     {
 
         static private FileInfo _file;
@@ -20,6 +20,13 @@ namespace SoitaabScan
         private int Xmin ,Ymin;
 
         public DateTime DateTime { get; }
+
+        
+        public ProgramSoitaab GetProgram()
+        {
+            return new ProgramSoitaab(_file);
+        }
+      
 
         public ProgramSoitaab(FileInfo file)
         {
