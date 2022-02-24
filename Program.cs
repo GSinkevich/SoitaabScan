@@ -66,10 +66,10 @@ namespace SoitaabScan
                     ProgramList programList = new ProgramList(d);
 
                     Console.WriteLine($"{"Название",23} {"Толщина",10} {"Габариты ",14} {"Остаток",20} {"Дата создания",20}");
-
-                    Console.WriteLine(programList);
-
+                    
+                    programList.DefaultSort();
                   
+                    Console.WriteLine(programList);
                    
                     //Console.WriteLine("Esc - для выхода. Любая  кнопка - обновить список");
 

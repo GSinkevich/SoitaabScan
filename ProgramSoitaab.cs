@@ -26,7 +26,6 @@ namespace SoitaabScan
         {
             return new ProgramSoitaab(_file);
         }
-      
 
         public ProgramSoitaab(FileInfo file)
         {
