@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SoitaabScan
 {
-    class ProgramSoitaab : IComparable<ProgramSoitaab>
+    class ProgramSoitaab 
     {
 
         static private FileInfo _file;
@@ -21,44 +21,30 @@ namespace SoitaabScan
 
         public DateTime DateTime { get; }
 
+        
+        public ProgramSoitaab GetProgram()
+        {
+            return new ProgramSoitaab(_file);
+        }
+      
+
         public ProgramSoitaab(FileInfo file)
         {
             _file = file;
             Name = file.Name;
+            DateTime = file.LastWriteTime.Date;
             GetSizeXY();
-            DateTime = file.CreationTime.Date;
         }
-
-   
-        public int CompareTo(ProgramSoitaab obj)
-        {
-            if (this.Thickness > obj.Thickness)
-                return 1;
-            if (this.Thickness < obj.Thickness)
-                return -1;
-            else
-                return 0;
-        }
-
-
 
         public void GetSizeXY()
         {
-            string line;
-            string alltext;
-            string[] allcicl;
-            using (StreamReader sr = new StreamReader(_file.FullName))
-            {
+            string[] secondline;
+            string[] AllstringText;
+            AllstringText = File.ReadAllLines(_file.FullName);
 
-                if ((line = sr.ReadLine()) != null)
-                {
-                    line = sr.ReadLine();
-                }
 
-                alltext = sr.ReadToEnd();
-            }
+            secondline = AllstringText[1].Split(' ', '.');
 
-            string[] secondline = line.Split(' ');
             SizeX = Convert.ToInt32(secondline[6]);
             SizeY = Convert.ToInt32(secondline[4]);
             Thickness = Convert.ToInt32(secondline[8]);
@@ -69,30 +55,35 @@ namespace SoitaabScan
                 return;
             }
 
-            allcicl = alltext.Split(']');
-            line = allcicl[allcicl.Length - 1];
+            int indexlastblockstarted = GetIndexLastblock(AllstringText);
 
-            allcicl = line.Split(' ', '.');
+
 
             List<int> listX = new List<int>();
             List<int> listY = new List<int>();
 
-            foreach (var item in allcicl)
+            for (int i = indexlastblockstarted; i < AllstringText.Length-1 ; i++)
             {
-                if (item.Contains("X"))
+                if (AllstringText[i].Contains("X") || AllstringText[i].Contains("Y"))
                 {
-                    var value = Convert.ToInt32(item.Remove(0, 1));
-                    listX.Add(value);
+                    string[] bufer = AllstringText[i].Split(',', '.', ' ') ;
 
-                }
-                if (item.Contains("Y"))
-                {
-                    var value = Convert.ToInt32(item.Remove(0, 1));
-                    listY.Add(value);
+                    foreach (var item in bufer)
+                    {
+                        if (item[0] == 'X')
+                        {
+                            listX.Add(Convert.ToInt32(item.Remove(0, 1)));
+                        }
 
+                        if (item[0] == 'Y')
+                        {
+                            listY.Add(Convert.ToInt32(item.Remove(0, 1)));
+                        }
+                    }
                 }
             }
 
+        
             Xmax = listX.Max();
             Xmin = listX.Min();
 
@@ -121,6 +112,21 @@ namespace SoitaabScan
                 Ostatok = "   ---";
             }
 
+        }
+
+        private int GetIndexLastblock(string [] allstring)
+        {
+            int Indexlastblock = 0;
+            for (int i = 2; i < allstring.Length; i++)
+            {
+                if (allstring[i].Contains(']'))
+                {
+                    Indexlastblock = i;
+                }
+
+                continue;
+            }
+            return Indexlastblock;
         }
 
         private bool CheckMaxMin()
