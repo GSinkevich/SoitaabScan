@@ -21,7 +21,6 @@ namespace SoitaabScan
 
         public DateTime DateTime { get; }
 
-        
         public ProgramSoitaab GetProgram()
         {
             return new ProgramSoitaab(_file);
