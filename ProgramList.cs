@@ -8,9 +8,12 @@ namespace SoitaabScan
 {
      class ProgramList
     {
-        public List<ProgramSoitaab> programSoitaabs = new List<ProgramSoitaab>();
+        private List<ProgramSoitaab> AllrpogramsSoitaab = new List<ProgramSoitaab>();
+
+        public List<ProgramSoitaab> selected_programs = new List<ProgramSoitaab>();
 
         private FileInfo[] programs;
+        
         public ProgramList(DirectoryInfo d)
         {
             if (d is null)
@@ -22,24 +25,43 @@ namespace SoitaabScan
             GetInfoAllPrograms();
         }
 
-        public void GetInfoAllPrograms()
+        private void GetInfoAllPrograms()
         {
             foreach (var item in programs)
             {
-                programSoitaabs.Add(new ProgramSoitaab(item));
+                AllrpogramsSoitaab.Add(new ProgramSoitaab(item));
             }
         }
 
-        public override string ToString()
+        public string GetProgramsOnlyOneThickness(int thickness)
         {
             string res = string.Empty;
-            foreach (var program in programSoitaabs)
+            foreach (var program in AllrpogramsSoitaab)
+            {
+                if (program.Thickness == thickness)
+                {
+                    res += $"\t{program.Name,-15} \t{program.Thickness,1} \t{program.SizeY} x {program.SizeX}  \t{program.Ostatok,-15} \t{program.DateTime.ToString("dd/MM"),3} \n";
+                }
+            }
+            if (res == string.Empty)
+            {
+                return "нету таких программ";
+            }
+            return res;
+        }
+
+        public string GetStringInfoAllPrograms() 
+        {
+            string res = string.Empty;
+            foreach (var program in AllrpogramsSoitaab)
             {
                 if (program is null)
                 {
                     return res;
                 }
+
                 res += $"\t{program.Name,-15} \t{program.Thickness,1} \t{program.SizeY} x {program.SizeX}  \t{program.Ostatok,-15} \t{program.DateTime.ToString("dd/MM"),3} \n";
+                
             }
             return res;
         }
@@ -81,9 +103,9 @@ namespace SoitaabScan
 
        public void DefaultSort()
         {
-            if (programSoitaabs is null)
+            if (AllrpogramsSoitaab is null)
             {
-                throw new ArgumentNullException(nameof(programSoitaabs));
+                throw new ArgumentNullException(nameof(AllrpogramsSoitaab));
             }
 
             byte swap;
@@ -92,19 +114,19 @@ namespace SoitaabScan
             {
                 swap = 0;
 
-                for (int i = 1; i < programSoitaabs.Count; i++)
+                for (int i = 1; i < AllrpogramsSoitaab.Count; i++)
                 {
-                    if (programSoitaabs[i] is null)
+                    if (AllrpogramsSoitaab[i] is null)
                     {
                         continue;                        
                     }
 
-                    if (programSoitaabs[i].Thickness < programSoitaabs[i - 1].Thickness)
+                    if (AllrpogramsSoitaab[i].Thickness < AllrpogramsSoitaab[i - 1].Thickness)
                     {
                         swap += 1;
-                        var variabletoexchange = programSoitaabs[i];
-                        programSoitaabs[i] = programSoitaabs[i - 1];
-                        programSoitaabs[i - 1] = variabletoexchange;
+                        var variabletoexchange = AllrpogramsSoitaab[i];
+                        AllrpogramsSoitaab[i] = AllrpogramsSoitaab[i - 1];
+                        AllrpogramsSoitaab[i - 1] = variabletoexchange;
                     }
                 }
             }
