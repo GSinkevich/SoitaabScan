@@ -6,21 +6,23 @@ using System.Text;
 
 namespace SoitaabScan
 {
-     class ProgramList
+     class ProgramList 
     {
+        string pathToIgnorFolder;
+
         private List<ProgramSoitaab> AllrpogramsSoitaab = new List<ProgramSoitaab>();
 
-        public List<ProgramSoitaab> selected_programs = new List<ProgramSoitaab>();
-
         private FileInfo[] programs;
-        
-        public ProgramList(DirectoryInfo d)
+
+       
+
+        public ProgramList(DirectoryInfo d,string IgnorFolder)
         {
             if (d is null)
             {
                 throw new ArgumentNullException(nameof(d), "is null");
             }
-
+            pathToIgnorFolder = IgnorFolder;
             programs = GetOnlypPogram(d);
             GetInfoAllPrograms();
         }
@@ -31,6 +33,17 @@ namespace SoitaabScan
             {
                 AllrpogramsSoitaab.Add(new ProgramSoitaab(item));
             }
+        }
+
+        public string SortByDate()
+        {
+            if (AllrpogramsSoitaab is null)
+            {
+                throw new ArgumentNullException(nameof(AllrpogramsSoitaab));
+            }
+            AllrpogramsSoitaab.Sort(CompareTo);
+
+            return GetStringInfoAllPrograms();
         }
 
         public string GetProgramsOnlyOneThickness(int thickness)
@@ -90,7 +103,7 @@ namespace SoitaabScan
 
 
 
-                    if (/*!currentFile.FullName.Contains(ignorpath) &&*/secondLine.Contains("PLASMA PREMERE START"))
+                    if (!currentFile.FullName.Contains(pathToIgnorFolder) &&  secondLine.Contains("PLASMA PREMERE START"))
                     {
                         res.Add(currentFile);
                     }
@@ -101,7 +114,7 @@ namespace SoitaabScan
 
         }
 
-       public void DefaultSort()
+        public void DefaultSort()
         {
             if (AllrpogramsSoitaab is null)
             {
@@ -132,6 +145,26 @@ namespace SoitaabScan
             }
             while (swap > 0);
         }
+        static public int CompareTo(ProgramSoitaab a, ProgramSoitaab b)
+        {
+            int ires;
+
+            ires = 0;
+            if (a.DateTime.Month < b.DateTime.Month)
+                ires = -1;
+            if (a.DateTime.Month > b.DateTime.Month)
+                ires = 1;
+            if (a.DateTime.Month == b.DateTime.Month)
+            {
+                if (a.DateTime.Day < b.DateTime.Day)
+                    ires = -1;
+                if (a.DateTime.Day > b.DateTime.Day)
+                    ires = 1;
+            }
+
+            return ires;
+        }
+
     }
 }
  
