@@ -11,10 +11,10 @@ namespace SoitaabScan
     {
         static void Main(string[] args)
         {
-            string folder = @"D:\Test";
+            //string folder = @"D:\Test";
             string IgnorFolder = "Выполнено";
 
-            //string folder = @"X:\SOITAAB";
+            string folder = @"X:\SOITAAB";
            
             //int x = 150;
             //int y = 53;
