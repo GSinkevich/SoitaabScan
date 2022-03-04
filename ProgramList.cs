@@ -103,7 +103,7 @@ namespace SoitaabScan
 
 
 
-                    if (!currentFile.FullName.Contains(pathToIgnorFolder) &&  secondLine.Contains("PLASMA PREMERE START"))
+                    if (!currentFile.FullName.Contains(pathToIgnorFolder) &&  (secondLine.Contains("PLASMA PREMERE START") || secondLine.Contains("OXY")))
                     {
                         res.Add(currentFile);
                     }

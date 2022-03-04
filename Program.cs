@@ -55,20 +55,22 @@ namespace SoitaabScan
 
             try
             {
-                DirectoryInfo d = new DirectoryInfo(folder);
-
-                ProgramList programList = new ProgramList(d, IgnorFolder);
-
-                do
+                while (true)
                 {
+
+                    DirectoryInfo d = new DirectoryInfo(folder);
+
+                    ProgramList programList = new ProgramList(d, IgnorFolder);
+
+
                     Console.Clear();
                     Console.WriteLine($"Список программ {folder},кроме {IgnorFolder}");
 
 
                     Console.WriteLine($"{"Название",23} {"Толщина",10} {"Габариты ",14} {"Остаток",20} {"Дата создания",20}");
 
-                     programList.DefaultSort();
-                  
+                    programList.DefaultSort();
+
                     Console.WriteLine(programList.GetStringInfoAllPrograms());
 
                     Console.Write("Показать только лист : ");
@@ -89,8 +91,8 @@ namespace SoitaabScan
                         Console.WriteLine(programList.SortByDate());
                         Console.ReadKey();
                     }
+                }
 
-                } while (true);
             }
 
             catch (Exception ex)
