@@ -6,29 +6,29 @@ using System.Text;
 
 namespace SoitaabScan
 {
-     class ProgramList 
+     class ProgramList
     {
-        string pathToIgnorFolder;
+        private string pathToIgnorFolder;
 
         private List<ProgramSoitaab> AllrpogramsSoitaab = new List<ProgramSoitaab>();
 
         private FileInfo[] programs;
-
+        private DirectoryInfo directoryInfo1;
        
-
-        public ProgramList(DirectoryInfo d,string IgnorFolder)
+        public ProgramList(DirectoryInfo d,ref string IgnorFolder)
         {
             if (d is null)
             {
                 throw new ArgumentNullException(nameof(d), "is null");
             }
+
             pathToIgnorFolder = IgnorFolder;
-            programs = GetOnlypPogram(d);
-            GetInfoAllPrograms();
+            directoryInfo1 = d;
         }
 
-        private void GetInfoAllPrograms()
+        public void GetInfoAllPrograms()
         {
+            programs = GetOnlypPogram(directoryInfo1);
             foreach (var item in programs)
             {
                 AllrpogramsSoitaab.Add(new ProgramSoitaab(item));
