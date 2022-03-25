@@ -1,33 +1,43 @@
-﻿using System;
+﻿using SoitaabScan.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace SoitaabScan
+namespace SoitaabScan.Model
 {
-    class ClientSoitaabScan
+    public class ClientSoitaabScan
     {
         ProgramList programList;
+        DirectoryMonitoring DM;
+
+        private bool flagChange = true;
 
         public delegate void AccountHandler(string message);
 
         public event AccountHandler ProgrammStarted;
-
+                
         public ClientSoitaabScan(ref string path, ref string IgnorFolder)
         {
             programList = new ProgramList(new DirectoryInfo(path), ref IgnorFolder);
+            DM = new DirectoryMonitoring(path);
         }
-
         public void ClientStart()
         {
-            programList.GetInfoAllPrograms();
             ProgrammStarted.Invoke("Program started , waite please");
+            programList.GetListAllPrograms();
+            StartWatching();
         }
 
         public string GetListPrograms()
         {
-            return programList.GetStringInfoAllPrograms();
+            if (flagChange == true)
+            {
+              flagChange = false;
+              return programList.GetStringInfoAllPrograms();
+            }
+            return programList.res;
         }
 
         public string GetProgramsOnlyOneThickness(int thicknes)
@@ -39,6 +49,14 @@ namespace SoitaabScan
         {
             return programList.SortByDate();
         }
+        public void StartWatching()
+        {
+            DM.changesEvent += Watch_changesEvent;
+        }
 
+        private void Watch_changesEvent()
+        {
+            flagChange = true;
+        }
     }
 }

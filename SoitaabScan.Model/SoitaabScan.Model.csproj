@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E459D6D8-B73A-4F55-8A26-514610D3E4C6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>SoitaabScan</RootNamespace>
-    <AssemblyName>SoitaabScan</AssemblyName>
+    <ProjectGuid>{B333BB10-CE9E-42F6-8E19-68BDA4D70780}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SoitaabScan.Model</RootNamespace>
+    <AssemblyName>SoitaabScan.Model</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,14 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="ClientSoitaabScan.cs" />
+    <Compile Include="ProgramList.cs" />
+    <Compile Include="ProgramSoitaab.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="SoitaabScan.Model\SoitaabScan.Model.csproj">
-      <Project>{b333bb10-ce9e-42f6-8e19-68bda4d70780}</Project>
-      <Name>SoitaabScan.Model</Name>
-    </ProjectReference>
+    <Compile Include="DirectoryMonitoring.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

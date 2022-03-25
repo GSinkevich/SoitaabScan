@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace SoitaabScan
+namespace SoitaabScan.Model
 {
      class ProgramList
     {
@@ -12,9 +12,10 @@ namespace SoitaabScan
 
         private List<ProgramSoitaab> AllrpogramsSoitaab = new List<ProgramSoitaab>();
 
-        private FileInfo[] programs;
         private DirectoryInfo directoryInfo1;
-       
+
+        public string res;
+
         public ProgramList(DirectoryInfo d,ref string IgnorFolder)
         {
             if (d is null)
@@ -26,9 +27,10 @@ namespace SoitaabScan
             directoryInfo1 = d;
         }
 
-        public void GetInfoAllPrograms()
+        public void GetListAllPrograms()
         {
-            programs = GetOnlypPogram(directoryInfo1);
+            AllrpogramsSoitaab.Clear();
+               FileInfo[] programs = GetOnlypPogram(directoryInfo1);
             foreach (var item in programs)
             {
                 AllrpogramsSoitaab.Add(new ProgramSoitaab(item));
@@ -65,7 +67,9 @@ namespace SoitaabScan
 
         public string GetStringInfoAllPrograms() 
         {
-            string res = string.Empty;
+
+            GetListAllPrograms();
+            res = string.Empty;
             foreach (var program in AllrpogramsSoitaab)
             {
                 if (program is null)
@@ -100,8 +104,6 @@ namespace SoitaabScan
                 {
                     string path = currentFile.FullName.ToString();
                     string secondLine = File.ReadLines(path).Skip(1).First();
-
-
 
                     if (!currentFile.FullName.Contains(pathToIgnorFolder) &&  (secondLine.Contains("PLASMA PREMERE START") || secondLine.Contains("OXY")))
                     {

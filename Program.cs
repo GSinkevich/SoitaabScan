@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using SoitaabScan.Model;
+using System;
 using System.Threading;
 
-namespace SoitaabScan
+namespace SoitaabScan.Model
 {
     class Program
     {
@@ -20,12 +17,18 @@ namespace SoitaabScan
             ClientSoitaabScan clientSoitaabScan = new ClientSoitaabScan(ref folder1, ref IgnorFolder);
             clientSoitaabScan.ProgrammStarted += ClientSoitaabScan_Started;
 
+            string result;
+
             clientSoitaabScan.ClientStart();
-            var ProgramsString = clientSoitaabScan.GetListPrograms();
+
             while (true)
             {
+                result = String.Empty;
 
-                Console.WriteLine(ProgramsString);
+                
+                Console.Clear();
+                result = clientSoitaabScan.GetListPrograms();
+                Console.WriteLine(result);
 
                 Console.Write("Показать только лист : ");
                 string input_value = Console.ReadLine();
@@ -47,9 +50,16 @@ namespace SoitaabScan
                     Console.ReadKey();
                 }
 
+               
+
                 Console.Clear();
             }
+
+           
         }
+       
+
+
 
         private static void ClientSoitaabScan_Started(string message)
         {
