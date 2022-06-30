@@ -41,13 +41,23 @@ namespace SoitaabScan
             AllstringText = File.ReadAllLines(_file.FullName);
 
 
-            secondline = AllstringText[1].Split(' ', '.');
+            secondline = AllstringText[1].Split(' ');
 
-            SizeX = Convert.ToInt32(secondline[6]);
-            SizeY = Convert.ToInt32(secondline[4]);
-            Thickness = Convert.ToInt32(secondline[8]);
+            var a =  secondline[6].Split('.');
 
-            if (_file.FullName.Contains("P"))
+            SizeX = Convert.ToInt32(a[0]);
+
+
+            var b = secondline[4].Split('.');
+
+            SizeY = Convert.ToInt32(b[0]);
+
+
+            int.TryParse(secondline[8],out int asd);
+
+            Thickness = asd;
+
+            if (_file.FullName.Contains("Q"))
             {
                 Ostatok = "Пистолет";
                 return;
@@ -68,6 +78,11 @@ namespace SoitaabScan
 
                     foreach (var item in bufer)
                     {
+                        if (item.Length == 0)
+                        {
+                            break;
+                        }
+
                         if (item[0] == 'X')
                         {
                             listX.Add(Convert.ToInt32(item.Remove(0, 1)));
@@ -81,12 +96,14 @@ namespace SoitaabScan
                 }
             }
 
-        
-            Xmax = listX.Max();
-            Xmin = listX.Min();
-
-            Ymax = listY.Max();
-            Ymin = listY.Min();
+            if (listX.Count != 0 || listY.Count !=0 )
+            {
+                Xmax = listX.Max();
+                Xmin = listX.Min();
+                Ymax = listY.Max();
+                Ymin = listY.Min();
+            }
+            
 
             int X, Y;
 

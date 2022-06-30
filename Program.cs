@@ -13,7 +13,7 @@ namespace SoitaabScan
         {
 
             string IgnorFolder = "Выполнено";
-            string folder1 = @"D:\TEST";
+            string folder1 = @"D:\Soitaab";
           
             ConsoleSettings();
 

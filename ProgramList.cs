@@ -35,6 +35,7 @@ namespace SoitaabScan
             }
         }
 
+
         public string SortByDate()
         {
             if (AllrpogramsSoitaab is null)
@@ -95,13 +96,15 @@ namespace SoitaabScan
             foreach (FileInfo currentFile in AllFiles)
             {
                 var Extension = Path.GetExtension(currentFile.ToString());
+                string secondLine =" ";
 
                 if (Extension == "")
                 {
                     string path = currentFile.FullName.ToString();
-                    string secondLine = File.ReadLines(path).Skip(1).First();
-
-
+                    if (new FileInfo(path).Length != 0)
+                    {
+                        secondLine  = File.ReadLines(path).Skip(1).First();
+                    }
 
                     if (!currentFile.FullName.Contains(pathToIgnorFolder) &&  (secondLine.Contains("PLASMA PREMERE START") || secondLine.Contains("OXY")))
                     {
